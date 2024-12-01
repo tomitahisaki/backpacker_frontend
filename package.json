@@ -6,10 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "lint-fix": "next lint --fix",
-    "prettier-check": "prettier --cache --check .",
-    "prettier-write": "prettier --write ."
+    "lint": "run-p --continue-on-error --print-label lint:*",
+    "lint:eslint": "next lint",
+    "lint:prettier": "prettier --cache --check .",
+    "fix": "run-s --continue-on-error fix:*",
+    "fix:eslint": "next lint --fix",
+    "fix:prettier": "prettier --cache --write ."
   },
   "dependencies": {
     "next": "15.0.3",
@@ -28,6 +30,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-redos": "^4.4.5",
     "eslint-plugin-simple-import-sort": "^12.1.1",
+    "npm-run-all2": "^7.0.1",
     "postcss": "^8",
     "prettier": "^3.4.1",
     "tailwindcss": "^3.4.1",
