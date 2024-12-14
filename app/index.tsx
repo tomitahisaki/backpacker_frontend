@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Text, View } from "react-native";
-import { healthCheck } from "./api/healthCheck";
+import { getHealthCheck } from "../api/healthCheck";
 
 export default function Index() {
   const [responseText, setResponseText] = useState("Loading..."); // 初期値を設定
@@ -8,7 +8,7 @@ export default function Index() {
   useEffect(() => {
     (async () => {
       try {
-        const data = await healthCheck(); // API呼び出し
+        const data = await getHealthCheck() as { message: string }; // API呼び出し
         setResponseText(data.message || "Unknown Status"); // レスポンスをstateに保存
       } catch (error) {
         console.error("Error fetching health check:", error);
