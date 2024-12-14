@@ -1,6 +1,6 @@
 import client from "./client";
 
-export const healthCheck = async () => {
+export const getHealthCheck = async () => {
   try {
     const response = await client.get("/health_checks"); // エンドポイント
     return response.data; // 必要なデータを返す
