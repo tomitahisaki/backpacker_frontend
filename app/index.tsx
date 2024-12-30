@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { DevToolsBubble } from "react-native-react-query-devtools";
-import { View, StyleSheet } from 'react-native';
-import { Provider as PaperProvider, Modal, Portal, Text, Button } from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Navigation from '@/components/Navigation';
+import Header from '@/components/Header';
+import { View, StyleSheet, FlatList } from 'react-native';
+import { Appbar, Searchbar, Card, BottomNavigation, Text } from 'react-native-paper';
 
-const App = () => {
+const HomeScreen = () => {
   const queryClient = new QueryClient();
+  const [searchQuery, setSearchQuery] = React.useState('');
+
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'home', title: 'Home', icon: 'home' },
+    { key: 'explore', title: 'Explore', icon: 'map' },
+    { key: 'profile', title: 'Profile', icon: 'account' },
+  ]);
 
   // Define your copy function based on your platform
   const onCopy = async (text: string) => {
@@ -22,55 +28,53 @@ const App = () => {
       return false;
     }
   };
-  
-  const [selectedRegion, setSelectedRegion] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
 
-  const regions = [
-    { label: 'Asia', value: 'asia' },
-    { label: 'Europe', value: 'europe' },
-    { label: 'Africa', value: 'africa' },
-    { label: 'North America', value: 'north_america' },
-    { label: 'South America', value: 'south_america' },
-    { label: 'Oceania', value: 'oceania' },
-    { label: 'Antarctica', value: 'antarctica' },
+  const features = [
+    { id: '1', title: 'Search Destination', description: 'Find your next adventure' },
+    { id: '2', title: 'Safety Info', description: 'Stay informed on safety levels' },
+    { id: '3', title: 'Connect with Travelers', description: 'Meet like-minded explorers' },
   ];
 
-  // 地域を保存
-  const saveRegion = async (region) => {
-    try {
-      await AsyncStorage.setItem('selectedRegion', region);
-      setSelectedRegion(region);
-    } catch (error) {
-      console.error('Error saving region:', error);
-    }
-  };
+  const renderFeature = ({ item }) => (
+    <Card style={styles.card}>
+      <Card.Content>
+        <Text style={styles.cardTitle}>{item.title}</Text>
+        <Text>{item.description}</Text>
+      </Card.Content>
+    </Card>
+  );
 
-  // 保存された地域を取得
-  useEffect(() => {
-    const fetchRegion = async () => {
-      try {
-        const storedRegion = await AsyncStorage.getItem('selectedRegion');
-        setSelectedRegion(storedRegion || ''); // デフォルト値を設定
-      } catch (error) {
-        console.error('Error retrieving region:', error);
-      }
-    };
-    fetchRegion();
-  }, []);
-
-  // モーダル内で地域を選択
-  const handleRegionSelect = (region) => {
-    saveRegion(region);
-    setModalVisible(false);
-  };
+  const renderScene = () => (
+    <View style={styles.body}>
+      <Searchbar
+        placeholder="Search by country or region"
+        value={searchQuery}
+        onChangeText={(query) => setSearchQuery(query)}
+        style={styles.searchbar}
+      />
+      <FlatList
+        data={features}
+        keyExtractor={(item) => item.id}
+        renderItem={renderFeature}
+        style={styles.list}
+      />
+    </View>
+  );
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <PaperProvider>
-        <Navigation />
-      </PaperProvider>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+    <QueryClientProvider client={queryClient} >
+      <Header />
+      <View style={styles.container}>
+        {/* Body */}
+        {renderScene()}
+
+        {/* Footer */}
+        <BottomNavigation
+          navigationState={{ index, routes }}
+          onIndexChange={setIndex}
+          renderScene={renderScene}
+        />
+      </View>
       <DevToolsBubble onCopy={onCopy} />
     </QueryClientProvider>
   );
@@ -79,34 +83,24 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
   },
-  content: {
+  body: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 10,
   },
-  currentRegionText: {
+  searchbar: {
+    marginBottom: 10,
+  },
+  list: {
+    flex: 1,
+  },
+  card: {
+    marginBottom: 10,
+  },
+  cardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
   },
-  modalContainer: {
-    backgroundColor: 'white',
-    padding: 20,
-    marginHorizontal: 20,
-    borderRadius: 10,
-    elevation: 3,
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  regionButton: {
-    marginVertical: 5,
-  },
-});
+});  
 
-export default App;
-
+export default HomeScreen;
