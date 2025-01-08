@@ -14,7 +14,7 @@ const Header = () => {
       <TouchableOpacity onPress={() => {}} style={styles.iconContainer}>
         <Image source={require('@/assets/images/rounded-header-icon.png')} style={styles.icon} />
       </TouchableOpacity>
-      <Appbar.Content title="Pathfinder" titleStyle={styles.title} />
+      <Appbar.Content title="TabiPortal" titleStyle={styles.title} />
       <Appbar.Action icon="menu" onPress={handleMenuPress} />
     </Appbar.Header>
   );

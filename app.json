@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Pathfinder",
-    "slug": "Pathfinder",
+    "name": "TabiPortal",
+    "slug": "TabiPortal",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/rounded-header-icon.png",
-    "scheme": "pathfinder",
+    "scheme": "TabiPortal",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
