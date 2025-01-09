@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "backpacker_frontend",
-    "slug": "backpacker_frontend",
+    "name": "TabiPortal",
+    "slug": "TabiPortal",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "icon": "./assets/images/tabi-portal-header.webp",
+    "scheme": "TabiPortal",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/tabi-portal-header.webp",
         "backgroundColor": "#ffffff"
       }
     },
